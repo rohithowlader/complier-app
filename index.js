@@ -1,17 +1,17 @@
 // import 'dotenv/config';
 import express from "express";
-
+import nodeCompiler from "./controller/nodeCompiler.js"
+import bodyParser from "body-parser"
 
 //Encoding
 const app = express();
 app.use(express.urlencoded({extended: false}));
-app.use(express.json());
-
+app.use(express.text());
 // connectUserDB();
 
-// Category Routing
+// Routing
+app.use('/v1.0', nodeCompiler);
 
-// Product Routing
 
 
 

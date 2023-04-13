@@ -1,7 +1,7 @@
 // import 'dotenv/config';
 import express from "express";
-import nodeCompiler from "./controller/nodeCompiler.js"
-import bodyParser from "body-parser"
+import nodeCompiler from "./controller/nodeCompiler.js";
+import deletefile from "./controller/deletefile.js"
 
 //Encoding
 const app = express();
@@ -11,6 +11,7 @@ app.use(express.text());
 
 // Routing
 app.use('/v1.0', nodeCompiler);
+app.use('/v1.0', deletefile);
 
 
 

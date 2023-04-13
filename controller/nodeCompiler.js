@@ -7,13 +7,14 @@ let nodeCompiler = express.Router();
 nodeCompiler.post('/getCode', async (req, res) => {
 
     try {
-        fs.appendFile('mynewfile1.js', req.body, function (err) {
+        let lang = req.query
+        fs.writeFileSync('mynewfile.js', req.body, function (err) {
             if (err) throw err;
             console.log('Saved!');
           });
         
 // run the `ls` command using exec
-exec('node mynewfile1.js', (err, output) => {
+exec('node mynewfile.js', (err, output) => {
     // once the command has completed, the callback function is called
     if (err) {
         // log and return if we encounter an error
@@ -22,8 +23,12 @@ exec('node mynewfile1.js', (err, output) => {
     }
     // log the output received from the command
     console.log("Output: \n", output)
+    res.redirect("http://localhost:5000/v1.0/deletefile")
 })
-
+// fs.unlinkSync('mynewfile.js', function (err) {
+//     if (err) throw err;
+//     console.log('File deleted!');
+//   });
     }
     catch (e) {
         console.log(e);

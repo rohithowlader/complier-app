@@ -10,7 +10,7 @@ const deletefile = (fileName, language) => {
       if (err) throw err;
       console.log("File deleted!");
     });
-    if (language === "c") {
+    if (language === "c"||language === "cpp") {
       //Deleteing executable file"
       fs.unlinkSync(execFile, function (err) {
         if (err) throw err;

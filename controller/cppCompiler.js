@@ -14,7 +14,6 @@ cppCompiler.post("/getCppCode", async (req, res) => {
     let fileNameExe = fileName + ".exe";
     let command1 = "g++ -o " + fileNameExe + " " + fileNameExt;
 
-    console.log(command1);
     var succesful = chalk.bold.cyan;
     var error = chalk.bold.red;
     fs.writeFileSync(fileNameExt, req.body, function (err) {
@@ -28,7 +27,7 @@ cppCompiler.post("/getCppCode", async (req, res) => {
       if (err) {
         // log and return if we encounter an error
         console.log(error("could not execute command: ", err));
-        //deletefile(fileName, language);
+        deletefile(fileName, language);
         return res.status(200).json({
           messsage: `Error`,
           code: req.body,

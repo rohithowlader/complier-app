@@ -3,7 +3,7 @@ import express from "express";
 import nodeCompiler from "./controller/nodeCompiler.js";
 import cCompliler from "./controller/cComplier.js"
 import cppCompiler from "./controller/cppCompiler.js";
-
+import pythonCompiler from './controller/pythonCompiler.js';
 //Encoding
 const app = express();
 app.use(express.urlencoded({extended: false}));
@@ -14,6 +14,7 @@ app.use(express.text());
 app.use('/v1.0', nodeCompiler);
 app.use('/v1.0', cCompliler);
 app.use('/v1.0', cppCompiler);
+app.use('/v1.0', pythonCompiler);
 
 
 

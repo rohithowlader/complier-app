@@ -3,7 +3,7 @@ const languageExt = (language) => {
   if (language === "node") return "js";
   if (language === "c") return "c";
   if (language === "cpp") return "cpp";
-  rsif(language === "python");
+  if(language === "python");
   return "py";
 };
 export default languageExt;

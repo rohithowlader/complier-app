@@ -4,15 +4,17 @@ import { exec } from "node:child_process";
 import languageExt from "../service/languageExt.js";
 import deletefile from "./deletefile.js";
 import chalk from "chalk";
-let cCompiler = express.Router();
+let cppCompiler = express.Router();
 
-cCompiler.post("/getCCode", async (req, res) => {
+cppCompiler.post("/getCCode", async (req, res) => {
   try {
-    let language = "c";
-    let fileName = "cCode";
+    let language = "cpp";
+    let fileName = "cppCode";
     let fileNameExt = fileName + "." + languageExt(language);
     let fileNameExe = fileName + ".exe";
-    let command1 = "gcc -o " + fileNameExe + " " + fileNameExt;
+    let command1 = "g++ -o " + fileNameExe + " " + fileNameExt;
+
+    console.log(command1);
     var succesful = chalk.bold.cyan;
     var error = chalk.bold.red;
     fs.writeFileSync(fileNameExt, req.body, function (err) {
@@ -62,4 +64,4 @@ cCompiler.post("/getCCode", async (req, res) => {
   }
 });
 
-export default cCompiler;
+export default cppCompiler;

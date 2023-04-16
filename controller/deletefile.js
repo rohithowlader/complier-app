@@ -7,6 +7,10 @@ let deletefile = express.Router();
 deletefile.get('/deletefile', async (req, res) => {
 
     try {
+        let {fileName} = req.query
+        let {language}=req.query;
+        console.log(fileName);
+        console.log(language)
         
 fs.unlinkSync('mynewfile.js', function (err) {
     if (err) throw err;

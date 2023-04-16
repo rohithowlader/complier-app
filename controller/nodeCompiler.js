@@ -23,7 +23,7 @@ exec('node mynewfile.js', (err, output) => {
     }
     // log the output received from the command
     console.log("Output: \n", output)
-    res.redirect("http://localhost:5000/v1.0/deletefile")
+    res.redirect(`http://localhost:5000/v1.0/deletefile?fileName=mynewfile&language=node`)
 })
 // fs.unlinkSync('mynewfile.js', function (err) {
 //     if (err) throw err;

@@ -6,7 +6,7 @@ import deletefile from "./deletefile.js";
 import chalk from "chalk";
 let cppCompiler = express.Router();
 
-cppCompiler.post("/getCCode", async (req, res) => {
+cppCompiler.post("/getCppCode", async (req, res) => {
   try {
     let language = "cpp";
     let fileName = "cppCode";
@@ -28,7 +28,7 @@ cppCompiler.post("/getCCode", async (req, res) => {
       if (err) {
         // log and return if we encounter an error
         console.log(error("could not execute command: ", err));
-        deletefile(fileName, language);
+        //deletefile(fileName, language);
         return res.status(200).json({
           messsage: `Error`,
           code: req.body,

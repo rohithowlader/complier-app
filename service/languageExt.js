@@ -1,13 +1,12 @@
 const languageExt = (language) =>{
     let extension="";
-    language=language.toLowerCase();
     if(language==="node")
         return "js"
-    else if(language==="c")
+    if(language==="c")
     return "c"
-    else if(language==="cpp")
+    if(language==="cpp")
     return "cpp"
-    else if(language==="python")
+    rsif(language==="python")
     return "py"
     
 

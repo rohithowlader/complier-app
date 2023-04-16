@@ -1,24 +1,34 @@
 import express from "express";
 import fs from "fs";
 import { exec } from "node:child_process";
-let nodeCompiler = express.Router();
+import languageExt from "../service/languageExt.js";
+import deletefile from "./deletefile.js";
+let cCompiler = express.Router();
 
-nodeCompiler.post("/getCodec", async (req, res) => {
+cCompiler.post("/getCCode", async (req, res) => {
   try {
-    fs.writeFileSync("mynewfile.c", req.body, function (err) {
+    let language = "c";
+    let fileName = "cCode";
+    let fileNameExt = fileName + "." + languageExt(language);
+    let fileNameExe = fileName + ".exe";
+    let command1 = "gcc -o " + fileNameExe + " " + fileNameExt;
+
+    console.log(command1);
+
+    fs.writeFileSync(fileNameExt, req.body, function (err) {
       if (err) throw err;
       console.log("Saved!");
     });
 
-    // run the gcc command using exec
-    exec("gcc -o mynewfile.exe mynewfile.c", (err, output) => {
+    // run the "gcc -o mynewfile.exe mynewfile.c" command using exec
+    exec(command1, (err, output) => {
       // once the command has completed, the callback function is called
       if (err) {
         // log and return if we encounter an error
         console.error("could not execute command: ", err);
         return;
       } else {
-        exec("mynewfile.exe", (err, output) => {
+        exec(fileNameExe, (err, output) => {
           // once the command has completed, the callback function is called
           if (err) {
             // log and return if we encounter an error
@@ -27,9 +37,15 @@ nodeCompiler.post("/getCodec", async (req, res) => {
           }
           // log the output received from the command
           console.log("Output: \n", output);
-          res.redirect(
-            `http://localhost:5000/v1.0/deletefile?fileName=mynewfile&language=c`
-          );
+          //   res.redirect(
+          //     `http://localhost:5000/v1.0/deletefile?fileName=mynewfile&language=c`
+          //   );
+          deletefile(fileName, language);
+          return res.status(200).json({
+            messsage: `Compiled`,
+            output: output,
+            code: req.body,
+          });
         });
       }
     });
@@ -42,4 +58,4 @@ nodeCompiler.post("/getCodec", async (req, res) => {
   }
 });
 
-export default nodeCompiler;
+export default cCompiler;

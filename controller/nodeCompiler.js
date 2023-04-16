@@ -1,13 +1,13 @@
 import express from "express";
 import fs from "fs";
 import { exec } from "node:child_process";
-let nodeCompiler = express.Router();
+
 import deletefile from "./deletefile.js";
 import languageExt from "../service/languageExt.js";
-
-nodeCompiler.post("/getCode", async (req, res) => {
+let nodeCompiler = express.Router();
+nodeCompiler.post("/getNodeCode", async (req, res) => {
   try {
-    let { language } = req.query;
+    let language = "node";
     let fileName = "nodeCode" 
     let fileNameExt=fileName + "." + languageExt(language);
     let command="node "+fileNameExt;

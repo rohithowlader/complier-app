@@ -37,9 +37,7 @@ cCompiler.post("/getCCode", async (req, res) => {
           }
           // log the output received from the command
           console.log("Output: \n", output);
-          //   res.redirect(
-          //     `http://localhost:5000/v1.0/deletefile?fileName=mynewfile&language=c`
-          //   );
+
           deletefile(fileName, language);
           return res.status(200).json({
             messsage: `Compiled`,
@@ -49,10 +47,6 @@ cCompiler.post("/getCCode", async (req, res) => {
         });
       }
     });
-    // fs.unlinkSync('mynewfile.js', function (err) {
-    //     if (err) throw err;
-    //     console.log('File deleted!');
-    //   });
   } catch (e) {
     console.log(e);
   }

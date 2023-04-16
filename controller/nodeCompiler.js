@@ -8,9 +8,9 @@ let nodeCompiler = express.Router();
 nodeCompiler.post("/getNodeCode", async (req, res) => {
   try {
     let language = "node";
-    let fileName = "nodeCode" 
-    let fileNameExt=fileName + "." + languageExt(language);
-    let command="node "+fileNameExt;
+    let fileName = "nodeCode";
+    let fileNameExt = fileName + "." + languageExt(language);
+    let command = "node " + fileNameExt;
     fs.writeFileSync(fileNameExt, req.body, function (err) {
       if (err) throw err;
       console.log("Saved!");
@@ -30,9 +30,8 @@ nodeCompiler.post("/getNodeCode", async (req, res) => {
       return res.status(200).json({
         messsage: `Compiled`,
         output: output,
-        code:req.body
+        code: req.body,
       });
-      
     });
   } catch (e) {
     console.log(e);

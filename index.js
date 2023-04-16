@@ -2,6 +2,7 @@
 import express from "express";
 import nodeCompiler from "./controller/nodeCompiler.js";
 import deletefile from "./controller/deletefile.js"
+import cCompliler from "./controller/cComplier.js"
 
 //Encoding
 const app = express();
@@ -12,6 +13,7 @@ app.use(express.text());
 // Routing
 app.use('/v1.0', nodeCompiler);
 app.use('/v1.0', deletefile);
+app.use('/v1.0', cCompliler);
 
 
 

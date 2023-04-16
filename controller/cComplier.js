@@ -3,6 +3,7 @@ import fs from "fs";
 import { exec } from "node:child_process";
 import languageExt from "../service/languageExt.js";
 import deletefile from "./deletefile.js";
+import chalk from "chalk";
 let cCompiler = express.Router();
 
 cCompiler.post("/getCCode", async (req, res) => {
@@ -14,10 +15,11 @@ cCompiler.post("/getCCode", async (req, res) => {
     let command1 = "gcc -o " + fileNameExe + " " + fileNameExt;
 
     console.log(command1);
-
+    var succesful = chalk.bold.cyan;
+    var error = chalk.bold.red;
     fs.writeFileSync(fileNameExt, req.body, function (err) {
       if (err) throw err;
-      console.log("Saved!");
+      console.log(succesful("Saved!"));
     });
 
     // run the "gcc -o mynewfile.exe mynewfile.c" command using exec
@@ -25,18 +27,28 @@ cCompiler.post("/getCCode", async (req, res) => {
       // once the command has completed, the callback function is called
       if (err) {
         // log and return if we encounter an error
-        console.error("could not execute command: ", err);
-        return;
+        console.log(error("could not execute command: ", err));
+        deletefile(fileName, language);
+        return res.status(200).json({
+          messsage: `Error`,
+          code: req.body,
+          err,
+        });
       } else {
         exec(fileNameExe, (err, output) => {
           // once the command has completed, the callback function is called
           if (err) {
             // log and return if we encounter an error
-            console.error("could not execute command: ", err);
-            return;
+            console.log(error("could not execute command: ", err));
+            deletefile(fileName, language);
+            return res.status(200).json({
+              messsage: `Error`,
+              code: req.body,
+              err,
+            });
           }
           // log the output received from the command
-          console.log("Output: \n", output);
+          console.log(succesful("Output: \n", output));
 
           deletefile(fileName, language);
           return res.status(200).json({

@@ -19,11 +19,11 @@ app.use('/v1.0', cCompliler);
 
 
 //Created an express server
-const PORT= 5000|| process.env.DEV_PORT || process.env.PROD_PORT ;
+const PORT= 5000;
 app.get('/', (req, res) => {
-    res.send(`Running on port ${process.env.DEV_PORT}` );
+    res.send(`Running on port ${PORT}` );
  });
 
  app.listen( PORT , () =>{
-    console.log(`App is running on port : ${process.env.PROD_PORT}`);
+    console.log(`App is running on port : ${PORT}`);
 })

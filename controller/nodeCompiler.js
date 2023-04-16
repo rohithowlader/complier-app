@@ -1,38 +1,42 @@
 import express from "express";
-import fs from 'fs';
-import { exec } from 'node:child_process'
+import fs from "fs";
+import { exec } from "node:child_process";
 let nodeCompiler = express.Router();
+import deletefile from "./deletefile.js";
+import languageExt from "../service/languageExt.js";
 
+nodeCompiler.post("/getCode", async (req, res) => {
+  try {
+    let { language } = req.query;
+    let fileName = "nodeCode" 
+    let fileNameExt=fileName + "." + languageExt(language);
+    let command="node "+fileNameExt;
+    fs.writeFileSync(fileNameExt, req.body, function (err) {
+      if (err) throw err;
+      console.log("Saved!");
+    });
 
-nodeCompiler.post('/getCode', async (req, res) => {
-
-    try {
-        let lang = req.query
-        fs.writeFileSync('mynewfile.js', req.body, function (err) {
-            if (err) throw err;
-            console.log('Saved!');
-          });
-        
-// run the `ls` command using exec
-exec('node mynewfile.js', (err, output) => {
-    // once the command has completed, the callback function is called
-    if (err) {
+    // run the `node nodeCode.js` command using exec
+    exec(command, (err, output) => {
+      // once the command has completed, the callback function is called
+      if (err) {
         // log and return if we encounter an error
-        console.error("could not execute command: ", err)
-        return
-    }
-    // log the output received from the command
-    console.log("Output: \n", output)
-    res.redirect(`http://localhost:5000/v1.0/deletefile?fileName=mynewfile&language=node`)
-})
-// fs.unlinkSync('mynewfile.js', function (err) {
-//     if (err) throw err;
-//     console.log('File deleted!');
-//   });
-    }
-    catch (e) {
-        console.log(e);
-    }
+        console.error("could not execute command: ", err);
+        return;
+      }
+      // log the output received from the command
+      console.log("Output: \n", output);
+      deletefile(fileName, language);
+      return res.status(200).json({
+        messsage: `Compiled`,
+        output: output,
+        code:req.body
+      });
+      
+    });
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 export default nodeCompiler;

@@ -18,7 +18,7 @@ nodeCompiler.post("/getNodeCode", async (req, res) => {
     var succesful = chalk.bold.cyan;
     var error = chalk.bold.red;
     // run the `node nodeCode.js` command using exec
-    exec(command, (err, output) => {
+    exec(command, (err, output,stdout, stderr) => {
       // once the command has completed, the callback function is called
       if (err) {
         // log and return if we encounter an error
@@ -29,6 +29,7 @@ nodeCompiler.post("/getNodeCode", async (req, res) => {
           messsage: `Error`,
           code: req.body,
           err,
+          stdout
         });
       }
       // log the output received from the command

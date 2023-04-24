@@ -56,9 +56,7 @@ export default function Home() {
         },
       };
 
-      const dataToBeFed1 = {
-        code,
-      };
+      
       if (state.button === 1) {
         console.log("Button 1 clicked!");
         axios

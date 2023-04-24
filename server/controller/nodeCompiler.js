@@ -5,7 +5,7 @@ import chalk from "chalk";
 import deletefile from "./deletefile.js";
 import languageExt from "../service/languageExt.js";
 let nodeCompiler = express.Router();
-nodeCompiler.post("/getNodeCode", async (req, res) => {
+nodeCompiler.get("/getNodeCode", async (req, res) => {
   try {
     let language = "node";
     let fileName = "nodeCode";

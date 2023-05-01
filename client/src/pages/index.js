@@ -58,15 +58,13 @@ export default function Home() {
 
       
       if (state.button === 1) {
-        console.log("Button 1 clicked!");
         axios
           .post("http://localhost:5000/v1.0/getNodeCode", code,config)
           .then((response) => {
-            console.log("Program Entered "), window.location.reload();
+            console.log("Program Entered "+response)
           })
 
           .catch((error) => {
-            console.log(dataToBeFed1);
             console.error("There was an error!" + error);
           });
       }

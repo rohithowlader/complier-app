@@ -13,10 +13,9 @@ import axios from "axios";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const state = {
-    button: 1,
-  };
+  
   const [code, setCode] = useState("");
+  const [userOutput, setUserOutput] = useState("");
   // const [language, setLanguage] = useState("");
   // const handleSubmit = async () => {
   //   setIsLoading(true);
@@ -119,7 +118,7 @@ export default function Home() {
               onChange={(event) => setCode(event.currentTarget.value)}
             />
             <button
-              onClick={() => (state.button = 1)}
+              
               type="submit"
               name="node"
               value="node"

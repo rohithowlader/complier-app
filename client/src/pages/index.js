@@ -57,7 +57,7 @@ export default function Home() {
       };
 
       
-      if (state.button === 1) {
+      // if (state.button === 1) {
         axios
           .post("http://localhost:5000/v1.0/getNodeCode", code,config)
           .then((response) => {
@@ -67,10 +67,10 @@ export default function Home() {
           .catch((error) => {
             console.error("There was an error!" + error);
           });
-      }
-      if (state.button === 2) {
-        console.log("Button 2 clicked!");
-      }
+      // }
+      // if (state.button === 2) {
+      //   console.log("Button 2 clicked!");
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -108,7 +108,7 @@ export default function Home() {
               noValidate
               autoComplete="off"
             > */}
-          <form>
+          <form onSubmit={onSubmit}>
             <TextField
               id="outlined-multiline-static"
               label="Enter Code Here..."
@@ -123,14 +123,14 @@ export default function Home() {
               type="submit"
               name="node"
               value="node"
-            ></button>
+            >Node.js</button>
           </form>
           {/* <Button width="full" mt={4} type="submit">
                 Submit
               </Button> */}
 
           {/* </Box> */}
-          <form className="App" onSubmit={onSubmit}>
+          {/* <form className="App" onSubmit={onSubmit}>
             <button
               onClick={() => (state.button = 1)}
               type="submit"
@@ -147,7 +147,7 @@ export default function Home() {
             >
               Button 2
             </button>
-          </form>
+          </form> */}
         </div>
       </main>
     </>

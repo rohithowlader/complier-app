@@ -18,7 +18,7 @@ nodeCompiler.post("/getNodeCode", async (req, res) => {
     var succesful = chalk.bold.cyan;
     var error = chalk.bold.red;
     // run the `node nodeCode.js` command using exec
-    exec(command, (err, output,stdout, stderr) => {
+    exec(command, (err, output, stdout, stderr) => {
       // once the command has completed, the callback function is called
       if (err) {
         // log and return if we encounter an error
@@ -27,16 +27,15 @@ nodeCompiler.post("/getNodeCode", async (req, res) => {
         deletefile(fileName, language);
         return res.status(200).json({
           messsage: `Error`,
-          code: req.body,
           err,
-          stdout
+          stdout,
         });
       }
       // log the output received from the command
       console.log(succesful("Output: \n", output));
       deletefile(fileName, language);
       return res.status(200).json({
-        messsage: `Compiled`,
+        message: `Compiled`,
         output: output,
         code: req.body,
       });

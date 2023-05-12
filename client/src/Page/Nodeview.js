@@ -29,7 +29,6 @@ const Nodeview = () => {
 
   return (
     <>
-      <div className="App">Hello</div>
       <h1>
         Online Code Compiler
         <br />

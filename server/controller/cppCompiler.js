@@ -22,27 +22,27 @@ cppCompiler.post("/getCppCode", async (req, res) => {
     });
 
     // run the "gcc -o mynewfile.exe mynewfile.c" command using exec
-    exec(command1, (err, output) => {
+    exec(command1, (err, output, stdout, stderr) => {
       // once the command has completed, the callback function is called
       if (err) {
         // log and return if we encounter an error
         console.log(error("could not execute command: ", err));
         deletefile(fileName, language);
         return res.status(200).json({
-          messsage: `Error`,
-          code: req.body,
+          message: `Error`,
           err,
+          stdout,
         });
       } else {
-        exec(fileNameExe, (err, output) => {
+        exec(fileNameExe, (err, output, stdout, stderr) => {
           // once the command has completed, the callback function is called
           if (err) {
             // log and return if we encounter an error
             console.log(error("could not execute command: ", err));
             deletefile(fileName, language);
             return res.status(200).json({
-              messsage: `Error`,
-              code: req.body,
+              message: `Error`,
+              stdout,
               err,
             });
           }
@@ -51,7 +51,7 @@ cppCompiler.post("/getCppCode", async (req, res) => {
 
           deletefile(fileName, language);
           return res.status(200).json({
-            messsage: `Compiled`,
+            message: `Compiled`,
             output: output,
             code: req.body,
           });

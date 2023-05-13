@@ -30,7 +30,7 @@ const Nodeview = () => {
   return (
     <>
       <h1>
-        Online Code Compiler
+        Online Node Code Compiler
         <br />
         <textarea
           rows="20"

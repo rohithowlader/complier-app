@@ -26,7 +26,7 @@ nodeCompiler.post("/getNodeCode", async (req, res) => {
         console.log(error("could not execute command: ", err));
         deletefile(fileName, language);
         return res.status(200).json({
-          messsage: `Error`,
+          message: `Error`,
           err,
           stdout,
         });

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import NavBar from "../Component/NavBar.js";
 const Cppview = () => {
   const [code, setCode] = useState("");
   const [output, setOutput] = useState("");
@@ -29,8 +30,9 @@ const Cppview = () => {
 
   return (
     <>
-      <h1>
-        Online C Code Compiler
+      <NavBar />
+      <h1 style={{ marginLeft: "2rem" }}>
+        Online Cpp Code Compiler
         <br />
         <textarea
           rows="20"

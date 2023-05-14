@@ -11,8 +11,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<div>Home Page</div>} />
-          <Route path="/node" element={<Nodeview />} />
+          <Route path="/" element={<Nodeview />} />
           <Route path="/python" element={<Pythonview />} />
           <Route path="/c" element={<Cview />} />
           <Route path="/cpp" element={<Cppview />} />

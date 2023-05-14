@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import NavBar from "../Component/NavBar.js";
 const Nodeview = () => {
   const [code, setCode] = useState("");
   const [output, setOutput] = useState("");
@@ -29,7 +30,8 @@ const Nodeview = () => {
 
   return (
     <>
-      <h1>
+      <NavBar />
+      <h1 style={{ marginLeft: "2rem" }}>
         Online Node Code Compiler
         <br />
         <textarea

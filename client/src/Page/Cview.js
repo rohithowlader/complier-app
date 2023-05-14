@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import NavBar from "../Component/NavBar.js";
 const Cview = () => {
   const [code, setCode] = useState("");
   const [output, setOutput] = useState("");
@@ -29,7 +30,8 @@ const Cview = () => {
 
   return (
     <>
-      <h1>
+      <NavBar />
+      <h1 style={{ marginLeft: "2rem" }}>
         Online C Code Compiler
         <br />
         <textarea

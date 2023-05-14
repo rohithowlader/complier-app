@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import NavBar from "../Component/NavBar.js";
 
 const Pythonview = () => {
   const [code, setCode] = useState("");
@@ -30,7 +31,8 @@ const Pythonview = () => {
 
   return (
     <>
-      <h1>
+      <NavBar />
+      <h1 style={{ marginLeft: "2rem" }}>
         Online Python Code Compiler
         <br />
         <textarea

@@ -13,8 +13,10 @@ cCompiler.post("/getCCode", async (req, res) => {
     let fileNameExt = fileName + "." + languageExt(language);
     let fileNameExe = fileName + ".exe";
     let command1 = "gcc -o " + fileNameExe + " " + fileNameExt;
+    let command2 = fileNameExe;
     var succesful = chalk.bold.cyan;
     var error = chalk.bold.red;
+    //Write code to a new file
     fs.writeFileSync(fileNameExt, req.body, function (err) {
       if (err) throw err;
       console.log(succesful("Saved!"));
@@ -26,6 +28,7 @@ cCompiler.post("/getCCode", async (req, res) => {
       if (err) {
         // log and return if we encounter an error
         console.log(error("could not execute command: ", err));
+        //Delete the file and return error response
         deletefile(fileName, language);
         return res.status(200).json({
           message: `Error`,
@@ -33,11 +36,12 @@ cCompiler.post("/getCCode", async (req, res) => {
           stdout,
         });
       } else {
-        exec(fileNameExe, (err, output) => {
+        exec(command2, (err, output) => {
           // once the command has completed, the callback function is called
           if (err) {
             // log and return if we encounter an error
             console.log(error("could not execute command: ", err));
+            //Delete the file and return error response
             deletefile(fileName, language);
             return res.status(200).json({
               message: `Error`,
@@ -47,7 +51,7 @@ cCompiler.post("/getCCode", async (req, res) => {
           }
           // log the output received from the command
           console.log(succesful("Output: \n", output));
-
+          //Delete the file and return Output of code
           deletefile(fileName, language);
           return res.status(200).json({
             message: `Compiled`,

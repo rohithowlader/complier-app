@@ -11,6 +11,7 @@ pythonCompiler.post("/getPythonCode", async (req, res) => {
     let fileName = "pythonCode";
     let fileNameExt = fileName + "." + languageExt(language);
     let command = "python " + fileNameExt;
+    //Write code to a new file
     fs.writeFileSync(fileNameExt, req.body, function (err) {
       if (err) throw err;
       console.log("Saved!");
@@ -24,6 +25,7 @@ pythonCompiler.post("/getPythonCode", async (req, res) => {
         // log and return if we encounter an error
 
         console.log(error("could not execute command: ", err));
+        //Delete the file and return response
         deletefile(fileName, language);
         return res.status(200).json({
           message: `Error`,
@@ -33,6 +35,7 @@ pythonCompiler.post("/getPythonCode", async (req, res) => {
       }
       // log the output received from the command
       console.log(succesful("Output: \n", output));
+      //Delete the file and return Output
       deletefile(fileName, language);
       return res.status(200).json({
         message: `Compiled`,

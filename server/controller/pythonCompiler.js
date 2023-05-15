@@ -18,14 +18,14 @@ pythonCompiler.post("/getPythonCode", async (req, res) => {
     });
     var succesful = chalk.bold.cyan;
     var error = chalk.bold.red;
-    // run the `node nodeCode.js` command using exec
+    // run the `python pythonCode.js` command using exec
     exec(command, (err, output, stdout, stderr) => {
       // once the command has completed, the callback function is called
       if (err) {
         // log and return if we encounter an error
 
         console.log(error("could not execute command: ", err));
-        //Delete the file and return response
+        //Delete the file and return error response
         deletefile(fileName, language);
         return res.status(200).json({
           message: `Error`,
@@ -35,7 +35,7 @@ pythonCompiler.post("/getPythonCode", async (req, res) => {
       }
       // log the output received from the command
       console.log(succesful("Output: \n", output));
-      //Delete the file and return Output
+      //Delete the file and return Output of code
       deletefile(fileName, language);
       return res.status(200).json({
         message: `Compiled`,

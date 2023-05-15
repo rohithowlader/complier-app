@@ -22,7 +22,7 @@ cCompiler.post("/getCCode", async (req, res) => {
       console.log(succesful("Saved!"));
     });
 
-    // run the "gcc -o mynewfile.exe mynewfile.c" command using exec
+    // run the "gcc -o cCode.exe cCode.c" command using exec
     exec(command1, (err, output, stdout, stderr) => {
       // once the command has completed, the callback function is called
       if (err) {
@@ -36,6 +36,7 @@ cCompiler.post("/getCCode", async (req, res) => {
           stdout,
         });
       } else {
+        //run the "cCode.exe" command using exec
         exec(command2, (err, output) => {
           // once the command has completed, the callback function is called
           if (err) {

@@ -23,7 +23,7 @@ cppCompiler.post("/getCppCode", async (req, res) => {
       console.log(succesful("Saved!"));
     });
 
-    // run the "gcc -o mynewfile.exe mynewfile.c" command using exec
+    // run the "g++ -o cppCode.exe cppCode.c" command using exec
     exec(command1, (err, output, stdout, stderr) => {
       // once the command has completed, the callback function is called
       if (err) {
@@ -37,6 +37,7 @@ cppCompiler.post("/getCppCode", async (req, res) => {
           stdout,
         });
       } else {
+        //run the "cppCode.exe" command using exec
         exec(command2, (err, output, stdout, stderr) => {
           // once the command has completed, the callback function is called
           if (err) {

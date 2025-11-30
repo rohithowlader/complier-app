@@ -4,67 +4,89 @@ import { exec } from "node:child_process";
 import languageExt from "../service/languageExt.js";
 import deletefile from "./deletefile.js";
 import chalk from "chalk";
+
 let cppCompiler = express.Router();
 
 cppCompiler.post("/getCppCode", async (req, res) => {
   try {
-    let language = "cpp";
-    let fileName = "cppCode";
-    let fileNameExt = fileName + "." + languageExt(language);
-    let fileNameExe = fileName + ".exe";
-    let command1 = "g++ -o " + fileNameExe + " " + fileNameExt;
-    let command2 = fileNameExe;
+    const language = "cpp";
+    const fileName = "cppCode";
+    const fileNameExt = fileName + "." + languageExt(language); // e.g. cppCode.cpp
+    const fileNameExe = fileName + ".exe"; // compiled binary name
 
-    var succesful = chalk.bold.cyan;
-    var error = chalk.bold.red;
-    //Write code to a new file
-    fs.writeFileSync(fileNameExt, req.body, function (err) {
-      if (err) throw err;
-      console.log(succesful("Saved!"));
-    });
+    // g++ -o cppCode.exe cppCode.cpp
+    const command1 = `g++ -o ${fileNameExe} ${fileNameExt}`;
+    // On Windows: "cppCode.exe"
+    // On Linux/Render: "./cppCode.exe"
+    const command2 =
+      process.platform === "win32" ? fileNameExe : `./${fileNameExe}`;
 
-    // run the "g++ -o cppCode.exe cppCode.c" command using exec
-    exec(command1, (err, output, stdout, stderr) => {
-      // once the command has completed, the callback function is called
+    const succesful = chalk.bold.cyan;
+    const error = chalk.bold.red;
+
+    // If client sends { code: "..." }
+    const code = typeof req.body === "string" ? req.body : req.body.code;
+
+    if (!code) {
+      return res.status(400).json({ message: "No C++ code provided" });
+    }
+
+    // Write code to file (sync, NO callback)
+    fs.writeFileSync(fileNameExt, code);
+    console.log(succesful("Saved C++ source file:", fileNameExt));
+
+    // Compile C++: g++ -o cppCode.exe cppCode.cpp
+    exec(command1, (err, stdout, stderr) => {
       if (err) {
-        // log and return if we encounter an error
-        console.log(error("could not execute command: ", err));
-        //Delete the file and return error response
+        console.log(error("could not execute g++ command: ", err));
+        console.log(error("stderr: "), stderr);
+
         deletefile(fileName, language);
+
         return res.status(200).json({
-          message: `Error`,
+          message: "Error",
+          step: "compile",
           err,
           stdout,
-        });
-      } else {
-        //run the "cppCode.exe" command using exec
-        exec(command2, (err, output, stdout, stderr) => {
-          // once the command has completed, the callback function is called
-          if (err) {
-            // log and return if we encounter an error
-            console.log(error("could not execute command: ", err));
-            //Delete the file and return error response
-            deletefile(fileName, language);
-            return res.status(200).json({
-              message: `Error`,
-              stdout,
-              err,
-            });
-          }
-          // log the output received from the command
-          console.log(succesful("Output: \n", output));
-          //Delete the file and return Output of code
-          deletefile(fileName, language);
-          return res.status(200).json({
-            message: `Compiled`,
-            output: output,
-            code: req.body,
-          });
+          stderr,
         });
       }
+
+      console.log(succesful("Compilation OK"));
+      console.log(succesful("g++ stdout:\n"), stdout);
+
+      // Run compiled binary: ./cppCode.exe (Linux) or cppCode.exe (Windows)
+      exec(command2, (err, stdout, stderr) => {
+        if (err) {
+          console.log(error("could not execute binary: ", err));
+          console.log(error("stderr: "), stderr);
+
+          deletefile(fileName, language);
+
+          return res.status(200).json({
+            message: "Error",
+            step: "run",
+            code,
+            err,
+            stdout,
+            stderr,
+          });
+        }
+
+        console.log(succesful("Program Output:\n"), stdout);
+
+        deletefile(fileName, language);
+
+        return res.status(200).json({
+          message: "Compiled",
+          output: stdout,
+          code,
+        });
+      });
     });
   } catch (e) {
-    console.log(e);
+    console.error(e);
+    return res.status(500).json({ message: "Server error", error: e });
   }
 });
 

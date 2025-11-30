@@ -15,7 +15,7 @@ const Cview = () => {
     };
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/v1.0/getCCode",
+        "https://complier-app-2.onrender.com/v1.0/getCCode",
         code,
         config
       );

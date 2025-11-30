@@ -16,7 +16,7 @@ const Pythonview = () => {
     };
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/v1.0/getPythonCode",
+        "https://complier-app-2.onrender.com/v1.0/getPythonCode",
         code,
         config
       );
